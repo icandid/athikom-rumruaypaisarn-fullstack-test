@@ -1,0 +1,31 @@
+version: '3.7'
+
+services:
+  frontend:
+    image: frontend
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile-dev
+    container_name: frontend
+    volumes:
+      - ./frontend:/usr/src/app
+      - /usr/src/app/node_modules
+    ports:
+      - "3000:3000"
+    restart: "no"
+
+  backend:
+    image: backend
+    build:
+      context: ./backend
+      dockerfile: Dockerfile-dev
+    container_name: backend
+    volumes:
+      - ./backend:/usr/src/app
+      - /usr/src/app/node_modules
+    ports:
+      - "4000:80"
+    environment:
+      - NODE_ENV=development
+      - PORT=80
+    restart: "no"
