@@ -1,9 +1,9 @@
-import {Application, Request, Response} from 'express'
+import {Application, Request, Response, NextFunction} from 'express'
 import config from '../config'
 
 export function loadErrorHandlers(app: Application) {
   // catch 404 errors and forward to error handler
-  app.use((req, res, next) => {
+  app.use((req: Request, res: Response, next: NextFunction) => {
     interface BetterError extends Error {
       status?: number
     }
@@ -13,7 +13,7 @@ export function loadErrorHandlers(app: Application) {
     next(error)
   })
 
-  app.use((error: any, _req: Request, res: Response, next: any) => {
+  app.use((error: any, _req: Request, res: Response, next: NextFunction) => {
     if (res.headersSent) {
       next(error)
     } else if (error.name === 'ValidationError') {
